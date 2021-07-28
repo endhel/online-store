@@ -9,3 +9,7 @@ class RegistrationForm(Form):
         #validators.EqualTo('Confirmacao da senha', message='As senhas devem ser iguais!')
     ])
     confirm = PasswordField('Digite sua senha novamente:')
+
+class LoginForm(Form):
+    email = StringField('E-mail:', [validators.Length(min=6, max=35)])
+    password = PasswordField('Digite sua senha:', [validators.DataRequired()])
