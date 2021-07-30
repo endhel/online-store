@@ -11,5 +11,5 @@ class RegistrationForm(Form):
     confirm = PasswordField('Digite sua senha novamente:')
 
 class LoginForm(Form):
-    email = StringField('E-mail:', [validators.Length(min=6, max=35)])
+    email = StringField('Digite seu e-mail:', [validators.Length(min=6, max=35)])
     password = PasswordField('Digite sua senha:', [validators.DataRequired()])

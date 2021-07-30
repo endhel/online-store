@@ -5,7 +5,7 @@ from .models import User
 import os
 
 
-@app.route('/')
+@app.route('/admin')
 def admin():
     if 'email' not in session:
         flash('Favor, fazer o seu login!', 'danger')
@@ -25,7 +25,7 @@ def register():
 
         flash(f'Usuário {form.name.data} registrado com sucesso!', 'success')
 
-        return redirect(url_for('admin'))
+        return redirect(url_for('login'))
         
     return render_template('admin/register.html', form=form, title='Página de Registro')
 
@@ -37,7 +37,7 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             session['email'] = form.email.data
-            flash(f'Seja bem vindo, {form.email.data}', 'success')
+            flash(f'Seja bem vindo, {form.email.data}!', 'success')
             return redirect(request.args.get('next') or url_for('admin'))
         else:
             flash('Não foi possível logar no sistema!')
