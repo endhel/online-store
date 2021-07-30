@@ -16,3 +16,16 @@ def addbrand():
         return redirect(url_for('addbrand'))
 
     return render_template('products/addbrand.html', brands='brands')
+
+@app.route('/addcategory', methods=['GET', 'POST'])
+def addcategory():
+
+    if request.method == "POST":
+        getcategory = request.form.get('category')
+        category = Brand(name=getcategory)
+        db.session.add(category)
+        db.session.commit()
+        flash(f'A categoria {getcategory} foi cadastrada com sucesso!', 'success')
+        return redirect(url_for('addcategory'))
+
+    return render_template('products/addbrand.html')
