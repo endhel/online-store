@@ -1,7 +1,7 @@
 from flask import redirect, render_template, url_for, flash, request
 from .form import Addproducts
 from store import db, app
-from .models import Brand
+from .models import Brand, Category
 
 
 @app.route('/addbrand', methods=['GET', 'POST'])
@@ -22,7 +22,7 @@ def addcategory():
 
     if request.method == "POST":
         getcategory = request.form.get('category')
-        category = Brand(name=getcategory)
+        category = Category(name=getcategory)
         db.session.add(category)
         db.session.commit()
         flash(f'A categoria {getcategory} foi cadastrada com sucesso!', 'success')
@@ -32,6 +32,8 @@ def addcategory():
 
 @app.route('/addproduct', methods=['GET', 'POST'])
 def addproduct():
-    
+    brands = Brand.query.all()
+    categories = Category.query.all()
     form = Addproducts(request.form)
-    return render_template('products/addproduct.html', title='Cadastrar Produtos', form=form)
+    return render_template('products/addproduct.html', title='Cadastrar Produtos', 
+    form=form, brands = brands, categories = categories)
