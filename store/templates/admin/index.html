@@ -47,8 +47,8 @@
                 <td>{{product.brand.name}}</td>
                 <td><img src="{{url_for('static', filename='images/' + product.image_1)}}" width="155" height="120">
                 </td>
-                <td>Editar</td>
-                <td>Deletar</td>
+                <td><a href="" class="btn btn-sm btn-outline-success">Editar</a></td>
+                <td><a href="" class="btn btn-sm btn-outline-danger">Deletar</a></td>
             </tr>
             {% endfor %}
         </tbody>

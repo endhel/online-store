@@ -1,0 +1,46 @@
+{% extends "layouts.html" %}
+
+{% block content %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+    <a class="navbar-brand text-danger font-weight-bold" href="/admin">InfoStore</a>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link text-white" href="/admin">Home</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link text-white" href="/categories">Categorias</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white" href="/brands">Marcas</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            {% include "_messages.html" %}
+            {% if updatebrand %}
+            <form action="" method="POST">
+                <input type="text" name="brand" class="form-control" value="{{updatebrand.name}}">
+                <input type="submit" value="Atualizar" class="btn btn-success mt-2">
+                <a href="/brands" class="btn btn-danger mt-2">Cancelar</a>
+            </form>
+            {% else %}
+            <form action="" method="POST">
+                <input type="text" name="category" class="form-control" value="{{updatecategory.name}}">
+                <input type="submit" value="Atualizar" class="btn btn-success mt-2">
+                <a href="/categories" class="btn btn-danger mt-2">Cancelar</a>
+            </form>
+            {% endif %}
+        </div>
+        <div class="col-md-6"></div>
+    </div>
+</div>
+
+{% endblock content %}

@@ -37,7 +37,8 @@
             <tr>
                 <td>{{loop.index}}</td>
                 <td>{{brand.name}}</td>
-                <td><a href="" class="btn btn-sm btn-outline-success">Editar</a></td>
+                <td><a href="{{url_for('updatebrand', id=brand.id)}}" class="btn btn-sm btn-outline-success">Editar</a>
+                </td>
                 <td><a href="" class="btn btn-sm btn-outline-danger">Deletar</a></td>
             </tr>
             {% endfor %}
@@ -47,7 +48,8 @@
             <tr>
                 <td>{{loop.index}}</td>
                 <td>{{category.name}}</td>
-                <td><a href="" class="btn btn-sm btn-outline-success">Editar</a></td>
+                <td><a href="{{url_for('updatecategory', id=category.id)}}"
+                        class="btn btn-sm btn-outline-success">Editar</a></td>
                 <td><a href="" class="btn btn-sm btn-outline-danger">Deletar</a></td>
             </tr>
             {% endfor %}
