@@ -2,6 +2,43 @@
 
 {% block content %}
 
+<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+    <a class="navbar-brand text-danger font-weight-bold" href="#">InfoStore</a>
+</nav>
+
 {% include '_messages.html' %}
+
+<div class="container mt-3">
+    <table class="table table-sm">
+        <thead>
+            <th>Serial</th>
+            <th>Produto</th>
+            <th>Preço</th>
+            <th>Desconto</th>
+            <th>Categoria</th>
+            <th>Marca</th>
+            <th>Foto</th>
+            <th>Editar</th>
+            <th>Deletar</th>
+        </thead>
+
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td>{{loop.index}}</td>
+                <td>{{product.name}}</td>
+                <td>{{product.price}}</td>
+                <td>{{product.discount}}%</td>
+                <td>{{product.category.name}}</td>
+                <td>{{product.brand.name}}</td>
+                <td><img src="{{url_for('static', filename='images/' + product.image_1)}}" width="150" height="105"></td>
+                <td>Editar</td>
+                <td>Deletar</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
 
 {% endblock content %}

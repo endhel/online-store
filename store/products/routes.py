@@ -1,4 +1,4 @@
-from flask import redirect, render_template, url_for, flash, request
+from flask import redirect, render_template, url_for, flash, request, session
 from .form import Addproducts
 from store import db, app, photos
 from .models import Brand, Category, Product
@@ -7,6 +7,10 @@ import secrets
 
 @app.route('/addbrand', methods=['GET', 'POST'])
 def addbrand():
+
+    if 'email' not in session:
+        flash('Favor, fazer o seu login!', 'danger')
+        return redirect(url_for('login'))
 
     if request.method == "POST":
         getbrand = request.form.get('brand')
@@ -21,6 +25,10 @@ def addbrand():
 @app.route('/addcategory', methods=['GET', 'POST'])
 def addcategory():
 
+    if 'email' not in session:
+        flash('Favor, fazer o seu login!', 'danger')
+        return redirect(url_for('login'))
+
     if request.method == "POST":
         getcategory = request.form.get('category')
         category = Category(name=getcategory)
@@ -33,6 +41,11 @@ def addcategory():
 
 @app.route('/addproduct', methods=['GET', 'POST'])
 def addproduct():
+
+    if 'email' not in session:
+        flash('Favor, fazer o seu login!', 'danger')
+        return redirect(url_for('login'))
+
     brands = Brand.query.all()
     categories = Category.query.all()
     form = Addproducts(request.form)
@@ -55,7 +68,7 @@ def addproduct():
 
         db.session.add(addpro)
         db.session.commit()
-        flash(f'O produto {name} foi cadastrada com sucesso!', 'success')
+        flash(f'O produto {name} foi cadastrado com sucesso!', 'success')
         return redirect(url_for('admin'))
         
     return render_template('products/addproduct.html', title='Cadastrar Produtos', 
