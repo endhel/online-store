@@ -109,3 +109,41 @@ def updatecategory(id):
         return redirect(url_for('categories'))
 
     return render_template('products/updatebrand.html', title='Atualizar Categoria', updatecategory=updatecategory)
+
+@app.route('/updateproduct/<int:id>', methods=['GET', 'POST'])
+def updateproduct(id):
+
+    if 'email' not in session:
+        flash('Favor, fazer o seu login!', 'danger')
+        return redirect(url_for('login'))
+
+    brands = Brand.query.all()
+    categories = Category.query.all()
+    product = Product.query.get_or_404(id)
+    brand = request.form.get('brand')
+    category = request.form.get('category')
+    form = Addproducts(request.form)
+
+    if request.method == "POST":
+        product.name = form.name.data
+        product.price = form.price.data
+        product.discount = form.discount.data
+        product.brand_id = brand
+        product.category_id = category
+        product.stock = form.stock.data
+        product.colors = form.colors.data
+        product.description = form.description.data
+
+        db.session.commit()
+        flash(f'O produto foi atualizado com sucesso!', 'success')
+        return redirect('/')
+
+    form.name.data = product.name
+    form.price.data = product.price
+    form.discount.data = product.discount
+    form.stock.data = product.stock
+    form.colors.data = product.colors
+    form.description.data = product.description
+
+    return render_template('products/updateproduct.html', title='Atualizar Produto', form=form, brands=brands,
+    categories=categories, product=product)
