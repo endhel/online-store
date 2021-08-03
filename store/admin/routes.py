@@ -3,10 +3,9 @@ from store import app, db, bcrypt
 from .form import RegistrationForm, LoginForm
 from .models import User
 from store.products.models import Product, Brand, Category
-import os
 
 
-@app.route('/admin')
+@app.route('/')
 def admin():
     if 'email' not in session:
         flash('Favor, fazer o seu login!', 'danger')
