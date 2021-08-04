@@ -5,7 +5,7 @@ from .models import User
 from store.products.models import Product, Brand, Category
 
 
-@app.route('/')
+@app.route('/admin')
 def admin():
     if 'email' not in session:
         flash('Favor, fazer o seu login!', 'danger')
