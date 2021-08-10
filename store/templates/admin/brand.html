@@ -8,14 +8,28 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link text-white" href="/">Home</a>
+                <a class="nav-link text-white" href="/admin">Home</a>
             </li>
-            <li class="nav-item active">
+            {% if brands %}
+
+            <li class="nav-item">
                 <a class="nav-link text-white" href="/categories">Categorias</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-danger" href="/brands">Marcas</a>
+            </li>
+    
+            {% else %}
+
+            <li class="nav-item">
+                <a class="nav-link text-danger" href="/categories">Categorias</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link text-white" href="/brands">Marcas</a>
             </li>
+   
+            {% endif %}
+            
         </ul>
     </div>
 </nav>
@@ -37,10 +51,36 @@
             <tr>
                 <td>{{loop.index}}</td>
                 <td>{{brand.name}}</td>
-                <td><a href="{{url_for('updatebrand', id=brand.id)}}" class="btn btn-sm btn-outline-success">Editar</a>
+                <td><a href="{{url_for('updatebrand', id=brand.id)}}" class="btn btn-sm btn-success">Editar</a></td>
+                <td>
+                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal-{{brand.id}}">
+                        Deletar
+                    </button>
                 </td>
-                <td><a href="" class="btn btn-sm btn-outline-danger">Deletar</a></td>
             </tr>
+
+            <div class="modal fade" id="exampleModal-{{brand.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">{{brand.name}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <span class="text-danger">Deseja realmente deletar a marca {{brand.name}}?</span>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <form action="{{url_for('deletebrand', id=brand.id)}}" method="POST">
+                                <button type="submit" class="btn btn-danger">Deletar</button>
+                            </form> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             {% endfor %}
 
             {% else %}
@@ -48,14 +88,53 @@
             <tr>
                 <td>{{loop.index}}</td>
                 <td>{{category.name}}</td>
-                <td><a href="{{url_for('updatecategory', id=category.id)}}"
-                        class="btn btn-sm btn-outline-success">Editar</a></td>
-                <td><a href="" class="btn btn-sm btn-outline-danger">Deletar</a></td>
+                <td>
+                    <a href="{{url_for('updatecategory', id=category.id)}}"
+                        class="btn btn-sm btn-success">Editar
+                    </a>
+                </td>
+                
+                <td>
+                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal-{{category.id}}">
+                        Deletar
+                    </button>
+                </td>
             </tr>
+
+            <div class="modal fade" id="exampleModal-{{category.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">{{category.name}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <span class="text-danger">Deseja realmente deletar a categoria {{category.name}}?</span>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <form action="{{url_for('deletecategory', id=category.id)}}" method="POST">
+                                <button type="submit" class="btn btn-danger">Deletar</button>
+                            </form> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
             {% endfor %}
             {% endif %}
+
         </tbody>
     </table>
+
+    {% if brands %}
+    <td><a href="{{url_for('addbrand')}}" class="btn btn-sm btn-dark mt-5">Adicionar Marca</a></td>
+    {% else %}
+    <td><a href="{{url_for('addcategory')}}" class="btn btn-sm btn-dark mt-5">Adicionar Categoria</a></td>
+    {% endif %}
 </div>
 
 

@@ -1,8 +1,8 @@
-from flask import redirect, render_template, url_for, flash, request, session
+from flask import redirect, render_template, url_for, flash, request, session, current_app
 from .form import Addproducts
 from store import db, app, photos
 from .models import Brand, Category, Product
-import secrets
+import secrets, os
 
 
 @app.route('/addbrand', methods=['GET', 'POST'])
@@ -18,7 +18,7 @@ def addbrand():
         db.session.add(brand)
         db.session.commit()
         flash(f'A marca {getbrand} foi cadastrada com sucesso!', 'success')
-        return redirect(url_for('addbrand'))
+        return redirect(url_for('brands'))
 
     return render_template('products/addbrand.html', brands='brands')
 
@@ -35,7 +35,7 @@ def addcategory():
         db.session.add(category)
         db.session.commit()
         flash(f'A categoria {getcategory} foi cadastrada com sucesso!', 'success')
-        return redirect(url_for('addcategory'))
+        return redirect(url_for('categories'))
 
     return render_template('products/addbrand.html')
 
@@ -113,6 +113,8 @@ def updatecategory(id):
 @app.route('/updateproduct/<int:id>', methods=['GET', 'POST'])
 def updateproduct(id):
 
+    print('teste')
+
     if 'email' not in session:
         flash('Favor, fazer o seu login!', 'danger')
         return redirect(url_for('login'))
@@ -134,9 +136,30 @@ def updateproduct(id):
         product.colors = form.colors.data
         product.description = form.description.data
 
+        if request.files.get('image_1'):
+            try:
+                os.unlink(os.path.join(current_app.root_path, "static/images/" + product.image_1))
+                product.image_1 = photos.save(request.files.get('image_1'), name=secrets.token_hex(10)+".")
+            except:
+                product.image_1 = photos.save(request.files.get('image_1'), name=secrets.token_hex(10)+".")
+        
+        if request.files.get('image_2'):
+            try:
+                os.unlink(os.path.join(current_app.root_path, "static/images/" + product.image_2))
+                product.image_2 = photos.save(request.files.get('image_2'), name=secrets.token_hex(10)+".")
+            except:
+                product.image_2 = photos.save(request.files.get('image_2'), name=secrets.token_hex(10)+".")
+
+        if request.files.get('image_3'):
+            try:
+                os.unlink(os.path.join(current_app.root_path, "static/images/" + product.image_3))
+                product.image_3 = photos.save(request.files.get('image_3'), name=secrets.token_hex(10)+".")
+            except:
+                product.image_3 = photos.save(request.files.get('image_3'), name=secrets.token_hex(10)+".")
+
         db.session.commit()
         flash(f'O produto foi atualizado com sucesso!', 'success')
-        return redirect('/')
+        return redirect('admin')
 
     form.name.data = product.name
     form.price.data = product.price
@@ -147,3 +170,54 @@ def updateproduct(id):
 
     return render_template('products/updateproduct.html', title='Atualizar Produto', form=form, brands=brands,
     categories=categories, product=product)
+
+
+@app.route('/deletebrand/<int:id>', methods=['POST'])
+def deletebrand(id):
+
+    brand = Brand.query.get_or_404(id)
+
+    if request.method == "POST":
+        db.session.delete(brand)
+        db.session.commit()
+        flash(f'A marca {brand.name} foi deletada com sucesso!', 'success')
+        return redirect(url_for('admin'))
+    flash(f'Erro ao tentar deletar a marca {brand.name}!', 'danger')
+    return redirect(url_for('admin'))
+
+@app.route('/deletecategory/<int:id>', methods=['POST'])
+def deletecategory(id):
+
+    category = Category.query.get_or_404(id)
+
+    
+
+    if request.method == "POST":
+        db.session.delete(category)
+        db.session.commit()
+        flash(f'A categoria {category.name} foi deletada com sucesso!', 'success')
+        return redirect(url_for('admin'))
+    flash(f'Erro ao tentar deletar a categoria {category.name}!', 'danger')
+    return redirect(url_for('admin'))
+
+@app.route('/deleteproduct/<int:id>', methods=['POST'])
+def deleteproduct(id):
+
+    product = Product.query.get_or_404(id)
+
+    if request.files.get('image_1'):
+            try:
+                os.unlink(os.path.join(current_app.root_path, "static/images/" + product.image_1))
+                os.unlink(os.path.join(current_app.root_path, "static/images/" + product.image_2))
+                os.unlink(os.path.join(current_app.root_path, "static/images/" + product.image_3))
+            except Exception as e:
+                print(e)
+            
+
+    if request.method == "POST":
+        db.session.delete(product)
+        db.session.commit()
+        flash(f'A categoria {product.name} foi deletada com sucesso!', 'success')
+        return redirect(url_for('admin'))
+    flash(f'Erro ao tentar deletar a categoria {product.name}!', 'danger')
+    return redirect(url_for('admin'))
