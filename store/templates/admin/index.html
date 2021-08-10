@@ -8,7 +8,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link text-danger" href="/admin">Home</a>
+                <a class="nav-link text-danger" href="/admin">Produtos</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link text-white" href="/categories">Categorias</a>
@@ -45,7 +45,7 @@
                 <td>{{product.discount}}%</td>
                 <td>{{product.category.name}}</td>
                 <td>{{product.brand.name}}</td>
-                <td><img src="{{url_for('static', filename='images/' + product.image_1)}}" width="155" height="120">
+                <td><img src="{{url_for('static', filename='images/' + product.image_1)}}" width="155" height="150">
                 </td>
                 <td><a href="{{url_for('updateproduct', id=product.id)}}" class="btn btn-sm btn-outline-success">Editar</a></td>
                 <td>
@@ -79,6 +79,7 @@
         {% endfor %}
         </tbody>
     </table>
+    <td><a href="{{url_for('addproduct')}}" class="btn btn-sm btn-dark mt-5">Adicionar Produto</a></td>
 </div>
 
 
