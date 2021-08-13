@@ -1,0 +1,75 @@
+{% extends 'layouts.html' %}
+
+{% block content %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+    <a class="navbar-brand text-danger font-weight-bold" href="/">InfoStore</a>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link text-danger" href="/">Produtos</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Marcas
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    {% for brand in brands %}
+                    <a class="dropdown-item" href="{{url_for('get_brand', id=brand.id)}}">{{brand.name}}</a>
+                    {% endfor %}
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row">
+        {% if brand %}
+
+        {% for b in brand %}
+        <div class="col-md-3">
+            <div class="card">
+                <img src="{{url_for('static', filename='images/' + b.image_1)}}" alt="{{b.name}}" 
+                class="card-img-top">
+                <div class="card-body">
+                    <h4 class="text-center">{{b.name}}</h4>
+                    <p class="text-center">Preço R${{b.price}}</p>
+                    {% if b.discount > 0 %}
+                    <h5 class="text-center" style="text-shadow: 1px 2px 2px #000; color: #f00; font-weight: 600;">Desconto {{b.discount}}%</h5>
+                    {% endif %}
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="float-left btn btn-sm btn-success">Detalhes</a>
+                    <a href="#" class="float-right btn btn-sm btn-warning">Comprar</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+        {% else %}
+        {% for product in products %}
+        <div class="col-md-3">
+            <div class="card">
+                <img src="{{url_for('static', filename='images/' + product.image_1)}}" alt="{{product.name}}" 
+                class="card-img-top">
+                <div class="card-body">
+                    <h4 class="text-center">{{product.name}}</h4>
+                    <p class="text-center">Preço R${{product.price}}</p>
+                    {% if product.discount > 0 %}
+                    <h5 class="text-center" style="text-shadow: 1px 2px 2px #000; color: #f00; font-weight: 600;">Desconto {{product.discount}}%</h5>
+                    {% endif %}
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="float-left btn btn-sm btn-success">Detalhes</a>
+                    <a href="#" class="float-right btn btn-sm btn-warning">Comprar</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+</div>
+
+{% endblock content %}
