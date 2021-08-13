@@ -37,6 +37,13 @@
 {% include '_messages.html' %}
 
 <div class="container mt-3">
+
+    {% if brands %}
+    <td><a href="{{url_for('addbrand')}}" class="btn btn-sm btn-dark my-3">Adicionar Marca</a></td>
+    {% else %}
+    <td><a href="{{url_for('addcategory')}}" class="btn btn-sm btn-dark my-3">Adicionar Categoria</a></td>
+    {% endif %}
+
     <table class="table table-sm">
         <thead>
             <th>Serial</th>
@@ -129,12 +136,6 @@
 
         </tbody>
     </table>
-
-    {% if brands %}
-    <td><a href="{{url_for('addbrand')}}" class="btn btn-sm btn-dark mt-5">Adicionar Marca</a></td>
-    {% else %}
-    <td><a href="{{url_for('addcategory')}}" class="btn btn-sm btn-dark mt-5">Adicionar Categoria</a></td>
-    {% endif %}
 </div>
 
 

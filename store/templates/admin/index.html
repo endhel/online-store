@@ -23,6 +23,7 @@
 {% include '_messages.html' %}
 
 <div class="container mt-3">
+    <a href="{{url_for('addproduct')}}" class="btn btn-sm btn-dark my-3">Adicionar Produto</a>
     <table class="table table-sm">
         <thead>
             <th>Serial</th>
@@ -47,9 +48,9 @@
                 <td>{{product.brand.name}}</td>
                 <td><img src="{{url_for('static', filename='images/' + product.image_1)}}" width="155" height="150">
                 </td>
-                <td><a href="{{url_for('updateproduct', id=product.id)}}" class="btn btn-sm btn-outline-success">Editar</a></td>
+                <td><a href="{{url_for('updateproduct', id=product.id)}}" class="btn btn-sm btn-success">Editar</a></td>
                 <td>
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal-{{product.id}}">
+                    <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#exampleModal-{{product.id}}">
                         Deletar
                     </button>
                 </td>
@@ -68,18 +69,17 @@
           <p class="text-danger">Deseja realmente deletar o produto {{product.name}}</p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-dark btn-sm" data-dismiss="modal">Cancelar</button>
-          <form action="{{url_for('deleteproduct', id=product.id)}}" method="POST">
-            <button type="submit" class="btn btn-danger btn-sm">Deletar</button>
-        </form> 
+            <button type="button" class="btn btn-dark btn-sm" data-dismiss="modal">Cancelar</button>
+            <form action="{{url_for('deleteproduct', id=product.id)}}" method="POST">
+                <button type="submit" class="btn btn-danger btn-sm">Deletar</button>
+            </form> 
         </div>
       </div>
     </div>
-</div>
+
         {% endfor %}
         </tbody>
     </table>
-    <td><a href="{{url_for('addproduct')}}" class="btn btn-sm btn-dark mt-5">Adicionar Produto</a></td>
 </div>
 
 
