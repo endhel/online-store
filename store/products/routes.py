@@ -7,27 +7,29 @@ import secrets, os
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-
-    products = Product.query.filter(Product.stock > 0)
+    page = request.args.get('page', 1, type=int)
+    products = Product.query.filter(Product.stock > 0).paginate(page=page, per_page=3)
     brands = Brand.query.join(Product, (Brand.id == Product.brand_id)).all()
     categories = Category.query.join(Product, (Category.id == Product.category_id)).all()
     return render_template('products/index.html', products=products, brands=brands, categories=categories)
 
 @app.route('/brand/<int:id>')
 def get_brand(id):
-
-    brand = Product.query.filter_by(brand_id=id)
+    page = request.args.get('page', 1, type=int)
+    brand_id = Brand.query.filter_by(id=id).first_or_404()
+    brand = Product.query.filter_by(brand=brand_id).paginate(page=page, per_page=3)
     brands = Brand.query.join(Product, (Brand.id == Product.brand_id)).all()
     categories = Category.query.join(Product, (Category.id == Product.category_id)).all()
-    return render_template('products/index.html', brand=brand, brands=brands, categories=categories)
+    return render_template('products/index.html', brand=brand, brands=brands, categories=categories, brand_id=brand_id)
 
 @app.route('/category/<int:id>')
 def get_category(id):
-
-    category = Product.query.filter_by(category_id=id)
+    page = request.args.get('page', 1, type=int)
+    category_id = Category.query.filter_by(id=id).first_or_404()
+    category = Product.query.filter_by(category=category_id).paginate(page=page, per_page=3)
     categories = Category.query.join(Product, (Category.id == Product.category_id)).all()
     brands = Brand.query.join(Product, (Brand.id == Product.brand_id)).all()
-    return render_template('products/index.html', category=category, categories=categories, brands=brands)
+    return render_template('products/index.html', category=category, categories=categories, brands=brands, category_id=category_id)
 
 @app.route('/addbrand', methods=['GET', 'POST'])
 def addbrand():
