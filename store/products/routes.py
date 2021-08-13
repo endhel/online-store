@@ -5,6 +5,12 @@ from .models import Brand, Category, Product
 import secrets, os
 
 
+@app.route('/', methods=['GET', 'POST'])
+def home():
+    products = Product.query.filter(Product.stock > 0)
+    brands = Brand.query.all()
+    return render_template('products/index.html', products=products, brands=brands)
+
 @app.route('/addbrand', methods=['GET', 'POST'])
 def addbrand():
 
@@ -159,7 +165,7 @@ def updateproduct(id):
 
         db.session.commit()
         flash(f'O produto foi atualizado com sucesso!', 'success')
-        return redirect('admin')
+        return redirect(url_for('admin'))
 
     form.name.data = product.name
     form.price.data = product.price
@@ -181,9 +187,9 @@ def deletebrand(id):
         db.session.delete(brand)
         db.session.commit()
         flash(f'A marca {brand.name} foi deletada com sucesso!', 'success')
-        return redirect(url_for('admin'))
+        return redirect(url_for('brands'))
     flash(f'Erro ao tentar deletar a marca {brand.name}!', 'danger')
-    return redirect(url_for('admin'))
+    return redirect(url_for('brands'))
 
 @app.route('/deletecategory/<int:id>', methods=['POST'])
 def deletecategory(id):
@@ -196,9 +202,9 @@ def deletecategory(id):
         db.session.delete(category)
         db.session.commit()
         flash(f'A categoria {category.name} foi deletada com sucesso!', 'success')
-        return redirect(url_for('admin'))
+        return redirect(url_for('categories'))
     flash(f'Erro ao tentar deletar a categoria {category.name}!', 'danger')
-    return redirect(url_for('admin'))
+    return redirect(url_for('categories'))
 
 @app.route('/deleteproduct/<int:id>', methods=['POST'])
 def deleteproduct(id):
@@ -221,3 +227,9 @@ def deleteproduct(id):
         return redirect(url_for('admin'))
     flash(f'Erro ao tentar deletar a categoria {product.name}!', 'danger')
     return redirect(url_for('admin'))
+
+@app.route('/brand/<int:id>')
+def get_brand(id):
+
+    brand = Product.query.filter_by(brand_id=id)
+    return render_template('products/index.html', brand=brand)
