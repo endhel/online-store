@@ -7,9 +7,27 @@ import secrets, os
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
+
     products = Product.query.filter(Product.stock > 0)
-    brands = Brand.query.all()
-    return render_template('products/index.html', products=products, brands=brands)
+    brands = Brand.query.join(Product, (Brand.id == Product.brand_id)).all()
+    categories = Category.query.join(Product, (Category.id == Product.category_id)).all()
+    return render_template('products/index.html', products=products, brands=brands, categories=categories)
+
+@app.route('/brand/<int:id>')
+def get_brand(id):
+
+    brand = Product.query.filter_by(brand_id=id)
+    brands = Brand.query.join(Product, (Brand.id == Product.brand_id)).all()
+    categories = Category.query.join(Product, (Category.id == Product.category_id)).all()
+    return render_template('products/index.html', brand=brand, brands=brands, categories=categories)
+
+@app.route('/category/<int:id>')
+def get_category(id):
+
+    category = Product.query.filter_by(category_id=id)
+    categories = Category.query.join(Product, (Category.id == Product.category_id)).all()
+    brands = Brand.query.join(Product, (Brand.id == Product.brand_id)).all()
+    return render_template('products/index.html', category=category, categories=categories, brands=brands)
 
 @app.route('/addbrand', methods=['GET', 'POST'])
 def addbrand():
@@ -196,8 +214,6 @@ def deletecategory(id):
 
     category = Category.query.get_or_404(id)
 
-    
-
     if request.method == "POST":
         db.session.delete(category)
         db.session.commit()
@@ -210,26 +226,19 @@ def deletecategory(id):
 def deleteproduct(id):
 
     product = Product.query.get_or_404(id)
+    if request.method == "POST":
 
-    if request.files.get('image_1'):
+        if request.files.get('image_1'):
             try:
                 os.unlink(os.path.join(current_app.root_path, "static/images/" + product.image_1))
                 os.unlink(os.path.join(current_app.root_path, "static/images/" + product.image_2))
                 os.unlink(os.path.join(current_app.root_path, "static/images/" + product.image_3))
             except Exception as e:
                 print(e)
-            
-
-    if request.method == "POST":
+                
         db.session.delete(product)
         db.session.commit()
-        flash(f'A categoria {product.name} foi deletada com sucesso!', 'success')
         return redirect(url_for('admin'))
-    flash(f'Erro ao tentar deletar a categoria {product.name}!', 'danger')
+    flash(f'A categoria {product.name} foi deletada com sucesso!', 'success')
     return redirect(url_for('admin'))
 
-@app.route('/brand/<int:id>')
-def get_brand(id):
-
-    brand = Product.query.filter_by(brand_id=id)
-    return render_template('products/index.html', brand=brand)

@@ -22,6 +22,43 @@
                     {% endfor %}
                 </div>
             </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Categorias
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    {% for category in categories %}
+                    <a class="dropdown-item" href="{{url_for('get_category', id=category.id)}}">{{category.name}}</a>
+                    {% endfor %}
+                </div>
+            </li>
+            {% elif category %}
+            <li class="nav-item">
+                <a class="nav-link text-white" href="/">Produtos</a>
+            </li>
+            
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Marcas
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    {% for brand in brands %}
+                    <a class="dropdown-item" href="{{url_for('get_brand', id=brand.id)}}">{{brand.name}}</a>
+                    {% endfor %}
+                </div>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-danger" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Categorias
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    {% for category in categories %}
+                    <a class="dropdown-item" href="{{url_for('get_category', id=category.id)}}">{{category.name}}</a>
+                    {% endfor %}
+                </div>
+            </li>
             {% else %}
             <li class="nav-item">
                 <a class="nav-link text-danger" href="/">Produtos</a>
@@ -34,6 +71,17 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     {% for brand in brands %}
                     <a class="dropdown-item" href="{{url_for('get_brand', id=brand.id)}}">{{brand.name}}</a>
+                    {% endfor %}
+                </div>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Categorias
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    {% for category in categories %}
+                    <a class="dropdown-item" href="{{url_for('get_category', id=category.id)}}">{{category.name}}</a>
                     {% endfor %}
                 </div>
             </li>
@@ -64,6 +112,30 @@
                 </div>
             </div>
         </div>
+        {% endfor %}
+
+        {% elif category %}
+
+        {% for c in category %}
+
+        <div class="col-md-3">
+            <div class="card">
+                <img src="{{url_for('static', filename='images/' + c.image_1)}}" alt="{{c.name}}" 
+                class="card-img-top">
+                <div class="card-body">
+                    <h4 class="text-center">{{c.name}}</h4>
+                    <p class="text-center">Preço R${{c.price}}</p>
+                    {% if c.discount > 0 %}
+                    <h5 class="text-center" style="text-shadow: 1px 2px 2px #000; color: #f00; font-weight: 600;">Desconto {{c.discount}}%</h5>
+                    {% endif %}
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="float-left btn btn-sm btn-success">Detalhes</a>
+                    <a href="#" class="float-right btn btn-sm btn-warning">Comprar</a>
+                </div>
+            </div>
+        </div>
+
         {% endfor %}
 
         {% else %}
