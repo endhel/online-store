@@ -118,7 +118,8 @@
     <div class="row">
         <div class="col text-center">
 
-            {% for page_num in brand.iter_pages() %}
+            {% if brand.total > 4 %}
+            {% for page_num in brand.iter_pages(left_edge=1, right_edge=2, left_current=1, right_current=2) %}
             {% if page_num %}
 
             {% if brand.page == page_num %}
@@ -132,6 +133,7 @@
             {% endif %}
 
             {% endfor %}
+            {% endif %}
         </div>
     </div>
 
@@ -164,7 +166,8 @@
     <div class="row">
         <div class="col text-center">
 
-            {% for page_num in category.iter_pages() %}
+            {% if category.total > 4 %}
+            {% for page_num in category.iter_pages(left_edge=1, right_edge=2, left_current=1, right_current=2) %}
             {% if page_num %}
 
             {% if category.page == page_num %}
@@ -178,6 +181,7 @@
             {% endif %}
 
             {% endfor %}
+            {% endif %}
         </div>
     </div>
 
@@ -206,7 +210,8 @@
     <div class="row">
         <div class="col text-center">
 
-            {% for page_num in products.iter_pages() %}
+            {% if products.total > 4 %}
+            {% for page_num in products.iter_pages(left_edge=1, right_edge=2, left_current=1, right_current=2) %}
             {% if page_num %}
 
             {% if products.page == page_num %}
@@ -220,6 +225,7 @@
             {% endif %}
 
             {% endfor %}
+            {% endif %}
         </div>
     </div>
            
