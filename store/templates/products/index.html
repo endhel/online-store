@@ -107,7 +107,7 @@
                     {% endif %}
                 </div>
                 <div class="card-footer">
-                    <a href="#" class="float-left btn btn-sm btn-success">Detalhes</a>
+                    <a href="{{url_for('single_page', id=b.id)}}" class="float-left btn btn-sm btn-success">Detalhes</a>
                     <a href="#" class="float-right btn btn-sm btn-warning">Comprar</a>
                 </div>
             </div>
@@ -154,7 +154,7 @@
                     {% endif %}
                 </div>
                 <div class="card-footer">
-                    <a href="#" class="float-left btn btn-sm btn-success">Detalhes</a>
+                    <a href="{{url_for('single_page', id=c.id)}}" class="float-left btn btn-sm btn-success">Detalhes</a>
                     <a href="#" class="float-right btn btn-sm btn-warning">Comprar</a>
                 </div>
             </div>
@@ -200,7 +200,7 @@
                     {% endif %}
                 </div>
                 <div class="card-footer">
-                    <a href="#" class="float-left btn btn-sm btn-success">Detalhes</a>
+                    <a href="{{url_for('single_page', id=product.id)}}" class="float-left btn btn-sm btn-success">Detalhes</a>
                     <a href="#" class="float-right btn btn-sm btn-warning">Comprar</a>
                 </div>
             </div>

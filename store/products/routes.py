@@ -244,3 +244,10 @@ def deleteproduct(id):
     flash(f'A categoria {product.name} foi deletada com sucesso!', 'success')
     return redirect(url_for('admin'))
 
+
+@app.route('/product/<int:id>')
+def single_page(id):
+    product = Product.query.get_or_404(id)
+    brands = Brand.query.join(Product, (Brand.id == Product.brand_id)).all()
+    categories = Category.query.join(Product, (Category.id == Product.category_id)).all()
+    return render_template('products/single_page.html', product=product, brands=brands, categories=categories)
