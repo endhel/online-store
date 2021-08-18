@@ -85,6 +85,10 @@
                     {% endfor %}
                 </div>
             </li>
+
+            <li class="nav-item">
+                <a href="#" class="nav-link disabled" tabindex="-1">Carrinho({{session['StoreinCart']|length}})</a>
+            </li>
             {% endif%}
         </ul>
     </div>
@@ -102,16 +106,17 @@
             <h4>{{product.name}}</h4>
             <p>Preço: R${{product.price}}</p>
 
+            <hr>
             {% if product.discount > 0 %}
             <b>Desconto: {{product.discount}}%</b>
             {% endif %}
 
-            <br>
-            <br>
+            <hr>
             <b>Descrição:</b>
             <p> {{product.description }}</p>
+            <hr>
 
-            <form action="">
+            <form action="{{url_for('addCart')}}" method="POST">
                 <input type="hidden" name="product_id" value="{{product.id}}">
                 <button type="submit" class="btn btn-warning">Adicionar ao Carrinho</button>
                 <label for="">Quantidade: </label>
@@ -125,12 +130,12 @@
                     {% endfor %}
                 </select>
             </form>
-            <a href="" class="btn btn-success">Comprar</a>
         </div>
     </div>
 
     <div class="row">
         <div class="col-md-12 mt-3" id="s_image">
+            <hr>
             <img src="{{url_for('static', filename='images/' + product.image_1)}}" alt="{{product.name}}" height="150" class="p-3">
             <img src="{{url_for('static', filename='images/' + product.image_2)}}" alt="{{product.name}}" height="150" class="p-3">
             <img src="{{url_for('static', filename='images/' + product.image_3)}}" alt="{{product.name}}" height="150" class="p-3">

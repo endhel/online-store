@@ -85,20 +85,24 @@
                     {% endfor %}
                 </div>
             </li>
+
+            <li class="nav-item">
+                <a href="#" class="nav-link disabled" tabindex="-1">Carrinho({{session['StoreinCart']|length}})</a>
+            </li>
             {% endif%}
         </ul>
     </div>
 </nav>
 
-<div class="container">
+<div class="container mt-3">
     <div class="row">
         {% if brand %}
 
         {% for b in brand.items %}
         <div class="col-md-3">
-            <div class="card">
+            <div class="card" style="height: 500px;">
                 <img src="{{url_for('static', filename='images/' + b.image_1)}}" alt="{{b.name}}" 
-                class="card-img-top">
+                class="card-img-top p-3">
                 <div class="card-body">
                     <h4 class="text-center">{{b.name}}</h4>
                     <p class="text-center">Preço R${{b.price}}</p>
@@ -108,7 +112,20 @@
                 </div>
                 <div class="card-footer">
                     <a href="{{url_for('single_page', id=b.id)}}" class="float-left btn btn-sm btn-success">Detalhes</a>
-                    <a href="#" class="float-right btn btn-sm btn-warning">Comprar</a>
+                    <form action="{{url_for('addCart')}}" method="POST">
+                        <input type="hidden" name="product_id" value="{{b.id}}">
+                        <button type="submit" class="btn btn-sm btn-warning float-right">Adicionar Carrinho</button>
+                        
+                        <input type="hidden" name="quantity" id="" value="1">
+                        {% set colors = b.colors.split(',') %}
+                        
+                        <select name="colors" id="colors" style="visibility: hidden;"> 
+                            {% for color in colors %}
+                            {% set col = color.split(':') %}
+                            <option value="{{col[0]}}">{{col[0]|capitalize}}</option>
+                            {% endfor %}
+                        </select>
+                    </form>
                 </div>
             </div>
         </div>
@@ -143,9 +160,9 @@
         {% for c in category.items %}
 
         <div class="col-md-3">
-            <div class="card">
+            <div class="card" style="height: 500px;">
                 <img src="{{url_for('static', filename='images/' + c.image_1)}}" alt="{{c.name}}" 
-                class="card-img-top">
+                class="card-img-top p-3">
                 <div class="card-body">
                     <h4 class="text-center">{{c.name}}</h4>
                     <p class="text-center">Preço R${{c.price}}</p>
@@ -155,7 +172,20 @@
                 </div>
                 <div class="card-footer">
                     <a href="{{url_for('single_page', id=c.id)}}" class="float-left btn btn-sm btn-success">Detalhes</a>
-                    <a href="#" class="float-right btn btn-sm btn-warning">Comprar</a>
+                    <form action="{{url_for('addCart')}}" method="POST">
+                        <input type="hidden" name="product_id" value="{{c.id}}">
+                        <button type="submit" class="btn btn-sm btn-warning float-right">Adicionar Carrinho</button>
+                        
+                        <input type="hidden" name="quantity" id="" value="1"">
+                        {% set colors = c.colors.split(',') %}
+                        
+                        <select name="colors" id="colors" style="visibility: hidden;"> 
+                            {% for color in colors %}
+                            {% set col = color.split(':') %}
+                            <option value="{{col[0]}}">{{col[0]|capitalize}}</option>
+                            {% endfor %}
+                        </select>
+                    </form>
                 </div>
             </div>
         </div>
@@ -189,9 +219,9 @@
         {% else %}
         {% for product in products.items %}
         <div class="col-md-3">
-            <div class="card">
+            <div class="card" style="height: 500px;">
                 <img src="{{url_for('static', filename='images/' + product.image_1)}}" alt="{{product.name}}" 
-                class="card-img-top">
+                class="card-img-top p-3">
                 <div class="card-body">
                     <h4 class="text-center">{{product.name}}</h4>
                     <p class="text-center">Preço R${{product.price}}</p>
@@ -201,7 +231,20 @@
                 </div>
                 <div class="card-footer">
                     <a href="{{url_for('single_page', id=product.id)}}" class="float-left btn btn-sm btn-success">Detalhes</a>
-                    <a href="#" class="float-right btn btn-sm btn-warning">Comprar</a>
+                    <form action="{{url_for('addCart')}}" method="POST">
+                        <input type="hidden" name="product_id" value="{{product.id}}">
+                        <button type="submit" class="btn btn-sm btn-warning float-right">Adicionar Carrinho</button>
+                        
+                        <input type="hidden" name="quantity" id="" value="1" min="1" max="{{product.stock}}">
+                        {% set colors = product.colors.split(',') %}
+                        
+                        <select name="colors" id="colors" style="visibility: hidden;"> 
+                            {% for color in colors %}
+                            {% set col = color.split(':') %}
+                            <option value="{{col[0]}}">{{col[0]|capitalize}}</option>
+                            {% endfor %}
+                        </select>
+                    </form>
                 </div>
             </div>
         </div>
