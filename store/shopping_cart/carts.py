@@ -1,6 +1,8 @@
 from flask import redirect, render_template, url_for, flash, request, session, current_app
 from store import db, app
 from store.products.models import Product
+from store.products.routes import brands, categories
+import json
 
 def M_Dictionaries(dic1, dic2):
     if isinstance(dic1, list) and isinstance(dic2, list):
@@ -50,7 +52,7 @@ def getCart():
         subtotal -= discount
         tax = ("%.2f" %(.06 * float(subtotal)))
         total = float("%.2f" %(1.06 * subtotal))
-    return render_template('products/carts.html', tax=tax, total=total)
+    return render_template('products/carts.html', tax=tax, total=total, brands=brands(), categories=categories())
 
 
 @app.route('/updateCart/<int:code>', methods=['POST'])
