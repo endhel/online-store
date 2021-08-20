@@ -38,8 +38,8 @@ def addCart():
 
 @app.route('/carts')
 def getCart():
-    if 'StoreinCart' not in session:
-        return redirect(request.referrer)
+    if 'StoreinCart' not in session or len(session['StoreinCart']) <= 0:
+        return redirect(url_for('home'))
     
     subtotal = 0
     total = 0
@@ -55,7 +55,7 @@ def getCart():
 
 @app.route('/updateCart/<int:code>', methods=['POST'])
 def updateCart(code):
-    if 'StoreinCart' not in session and len(session['StoreinCart']) <= 0:
+    if 'StoreinCart' not in session or len(session['StoreinCart']) <= 0:
         return redirect(url_for('home'))
     if request.method == 'POST':
         quantity = request.form.get('quantity')
@@ -72,6 +72,24 @@ def updateCart(code):
         except Exception as e:
             print(e)
             return redirect(url_for('getCart'))
+
+@app.route('/deleteItem/<int:id>')
+def deleteItem(id):
+    if 'StoreinCart' not in session or len(session['StoreinCart']) <= 0:
+        return redirect(url_for('home'))
+
+    try:
+        session.modified = True
+        for key, item in session['StoreinCart'].items():
+            if int(key) == id:
+                session['StoreinCart'].pop(key, None)
+                flash('O item foi deletado com sucesso!', 'success')
+                return redirect(url_for('getCart'))
+
+    except Exception as e:
+        print(e)
+        return redirect(url_for('getCart'))
+
 
 
 

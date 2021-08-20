@@ -150,7 +150,7 @@
                         <td>{{"%0.2f"|format((subtotal|float) - discount|float )}}</td>
                         <td><button type="submit" class="btn btn-sm btn-success">Atualizar</button></td>
                     </form>
-                    <td><button type="submit" class="btn btn-sm btn-danger">Deletar</button></td>
+                    <td><a href="{{url_for('deleteItem', id=key)}}" class="btn btn-sm btn-danger">Deletar</a></td>
                 </tr>
                 {% endfor %}
 
