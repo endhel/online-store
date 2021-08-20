@@ -11,10 +11,11 @@
             <li class="nav-item">
                 <a class="nav-link text-white" href="/">Produtos</a>
             </li>
-            
+
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-danger" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Marcas
+                <a class="nav-link dropdown-toggle text-danger" href="#" id="navbarDropdown" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Marcas
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     {% for brand in brands %}
@@ -24,8 +25,9 @@
             </li>
 
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Categorias
+                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Categorias
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     {% for category in categories %}
@@ -37,10 +39,11 @@
             <li class="nav-item">
                 <a class="nav-link text-white" href="/">Produtos</a>
             </li>
-            
+
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Marcas
+                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Marcas
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     {% for brand in brands %}
@@ -50,8 +53,9 @@
             </li>
 
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-danger" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Categorias
+                <a class="nav-link dropdown-toggle text-danger" href="#" id="navbarDropdown" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Categorias
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     {% for category in categories %}
@@ -63,10 +67,11 @@
             <li class="nav-item">
                 <a class="nav-link text-danger" href="/">Produtos</a>
             </li>
-            
+
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Marcas
+                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Marcas
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     {% for brand in brands %}
@@ -76,8 +81,9 @@
             </li>
 
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Categorias
+                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Categorias
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     {% for category in categories %}
@@ -87,7 +93,8 @@
             </li>
 
             <li class="nav-item">
-                <a href="#" class="nav-link disabled" tabindex="-1">Carrinho({{session['StoreinCart']|length}})</a>
+                <a href="{{url_for('getCart')}}" class="nav-link text-white"
+                    tabindex="-1">Carrinho({{session['StoreinCart']|length}})</a>
             </li>
             {% endif%}
         </ul>
@@ -101,13 +108,14 @@
         {% for b in brand.items %}
         <div class="col-md-3">
             <div class="card" style="height: 500px;">
-                <img src="{{url_for('static', filename='images/' + b.image_1)}}" alt="{{b.name}}" 
-                class="card-img-top p-3">
+                <img src="{{url_for('static', filename='images/' + b.image_1)}}" alt="{{b.name}}"
+                    class="card-img-top p-3">
                 <div class="card-body">
                     <h4 class="text-center">{{b.name}}</h4>
                     <p class="text-center">Preço R${{b.price}}</p>
                     {% if b.discount > 0 %}
-                    <h5 class="text-center" style="text-shadow: 1px 2px 2px #000; color: #f00; font-weight: 600;">Desconto {{b.discount}}%</h5>
+                    <h5 class="text-center" style="text-shadow: 1px 2px 2px #000; color: #f00; font-weight: 600;">
+                        Desconto {{b.discount}}%</h5>
                     {% endif %}
                 </div>
                 <div class="card-footer">
@@ -115,11 +123,11 @@
                     <form action="{{url_for('addCart')}}" method="POST">
                         <input type="hidden" name="product_id" value="{{b.id}}">
                         <button type="submit" class="btn btn-sm btn-warning float-right">Adicionar Carrinho</button>
-                        
+
                         <input type="hidden" name="quantity" id="" value="1">
                         {% set colors = b.colors.split(',') %}
-                        
-                        <select name="colors" id="colors" style="visibility: hidden;"> 
+
+                        <select name="colors" id="colors" style="visibility: hidden;">
                             {% for color in colors %}
                             {% set col = color.split(':') %}
                             <option value="{{col[0]}}">{{col[0]|capitalize}}</option>
@@ -140,9 +148,11 @@
             {% if page_num %}
 
             {% if brand.page == page_num %}
-            <a href="{{url_for('get_brand', id=brand_id.id, page=page_num)}}" class="btn btn-success btn-sm mt-3">{{page_num}}</a>
+            <a href="{{url_for('get_brand', id=brand_id.id, page=page_num)}}"
+                class="btn btn-success btn-sm mt-3">{{page_num}}</a>
             {% else %}
-            <a href="{{url_for('get_brand', id=brand_id.id, page=page_num)}}" class="btn btn-outline-success btn-sm mt-3">{{page_num}}</a>
+            <a href="{{url_for('get_brand', id=brand_id.id, page=page_num)}}"
+                class="btn btn-outline-success btn-sm mt-3">{{page_num}}</a>
             {% endif %}
 
             {% else %}
@@ -156,18 +166,19 @@
 
     <div class="row">
         {% elif category %}
-    
+
         {% for c in category.items %}
 
         <div class="col-md-3">
             <div class="card" style="height: 500px;">
-                <img src="{{url_for('static', filename='images/' + c.image_1)}}" alt="{{c.name}}" 
-                class="card-img-top p-3">
+                <img src="{{url_for('static', filename='images/' + c.image_1)}}" alt="{{c.name}}"
+                    class="card-img-top p-3">
                 <div class="card-body">
                     <h4 class="text-center">{{c.name}}</h4>
                     <p class="text-center">Preço R${{c.price}}</p>
                     {% if c.discount > 0 %}
-                    <h5 class="text-center" style="text-shadow: 1px 2px 2px #000; color: #f00; font-weight: 600;">Desconto {{c.discount}}%</h5>
+                    <h5 class="text-center" style="text-shadow: 1px 2px 2px #000; color: #f00; font-weight: 600;">
+                        Desconto {{c.discount}}%</h5>
                     {% endif %}
                 </div>
                 <div class="card-footer">
@@ -175,15 +186,15 @@
                     <form action="{{url_for('addCart')}}" method="POST">
                         <input type="hidden" name="product_id" value="{{c.id}}">
                         <button type="submit" class="btn btn-sm btn-warning float-right">Adicionar Carrinho</button>
-                        
+
                         <input type="hidden" name="quantity" id="" value="1"">
                         {% set colors = c.colors.split(',') %}
                         
-                        <select name="colors" id="colors" style="visibility: hidden;"> 
-                            {% for color in colors %}
-                            {% set col = color.split(':') %}
-                            <option value="{{col[0]}}">{{col[0]|capitalize}}</option>
-                            {% endfor %}
+                        <select name=" colors" id="colors" style="visibility: hidden;">
+                        {% for color in colors %}
+                        {% set col = color.split(':') %}
+                        <option value="{{col[0]}}">{{col[0]|capitalize}}</option>
+                        {% endfor %}
                         </select>
                     </form>
                 </div>
@@ -201,9 +212,11 @@
             {% if page_num %}
 
             {% if category.page == page_num %}
-            <a href="{{url_for('get_category', id=category_id.id, page=page_num)}}" class="btn btn-success btn-sm mt-3">{{page_num}}</a>
+            <a href="{{url_for('get_category', id=category_id.id, page=page_num)}}"
+                class="btn btn-success btn-sm mt-3">{{page_num}}</a>
             {% else %}
-            <a href="{{url_for('get_category', id=category_id.id, page=page_num)}}" class="btn btn-outline-success btn-sm mt-3">{{page_num}}</a>
+            <a href="{{url_for('get_category', id=category_id.id, page=page_num)}}"
+                class="btn btn-outline-success btn-sm mt-3">{{page_num}}</a>
             {% endif %}
 
             {% else %}
@@ -220,25 +233,27 @@
         {% for product in products.items %}
         <div class="col-md-3">
             <div class="card" style="height: 500px;">
-                <img src="{{url_for('static', filename='images/' + product.image_1)}}" alt="{{product.name}}" 
-                class="card-img-top p-3">
+                <img src="{{url_for('static', filename='images/' + product.image_1)}}" alt="{{product.name}}"
+                    class="card-img-top p-3">
                 <div class="card-body">
                     <h4 class="text-center">{{product.name}}</h4>
                     <p class="text-center">Preço R${{product.price}}</p>
                     {% if product.discount > 0 %}
-                    <h5 class="text-center" style="text-shadow: 1px 2px 2px #000; color: #f00; font-weight: 600;">Desconto {{product.discount}}%</h5>
+                    <h5 class="text-center" style="text-shadow: 1px 2px 2px #000; color: #f00; font-weight: 600;">
+                        Desconto {{product.discount}}%</h5>
                     {% endif %}
                 </div>
                 <div class="card-footer">
-                    <a href="{{url_for('single_page', id=product.id)}}" class="float-left btn btn-sm btn-success">Detalhes</a>
+                    <a href="{{url_for('single_page', id=product.id)}}"
+                        class="float-left btn btn-sm btn-success">Detalhes</a>
                     <form action="{{url_for('addCart')}}" method="POST">
                         <input type="hidden" name="product_id" value="{{product.id}}">
                         <button type="submit" class="btn btn-sm btn-warning float-right">Adicionar Carrinho</button>
-                        
+
                         <input type="hidden" name="quantity" id="" value="1" min="1" max="{{product.stock}}">
                         {% set colors = product.colors.split(',') %}
-                        
-                        <select name="colors" id="colors" style="visibility: hidden;"> 
+
+                        <select name="colors" id="colors" style="visibility: hidden;">
                             {% for color in colors %}
                             {% set col = color.split(':') %}
                             <option value="{{col[0]}}">{{col[0]|capitalize}}</option>
@@ -271,9 +286,9 @@
             {% endif %}
         </div>
     </div>
-           
-        {% endif %}
-    </div>
+
+    {% endif %}
+</div>
 </div>
 
 {% endblock content %}

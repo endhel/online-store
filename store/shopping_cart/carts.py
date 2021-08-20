@@ -18,8 +18,8 @@ def addCart():
         product = Product.query.filter_by(id=product_id).first()
 
         if product_id and quantity and colors and request.method=="POST":
-            DictItems = {product_id:{'Name':product.name, 'Price':float(product.price), 'Discount':product.discount, 
-            'Color':colors, 'Quantity':quantity, 'Image':product.image_1}}
+            DictItems = {product_id:{'name':product.name, 'price':float(product.price), 'discount':product.discount, 
+            'color':colors, 'quantity':quantity, 'image':product.image_1, 'colors': product.colors}}
             if 'StoreinCart' in session:
                 print(session['StoreinCart'])
                 if product_id in session['StoreinCart']:
@@ -45,9 +45,40 @@ def getCart():
     total = 0
 
     for key, product in session['StoreinCart'].items():
-        discount = (product['Discount'] / 100) * float(product['Price'])
-        subtotal += float(product['Price']) * int(product['Quantity'])
+        discount = (product['discount'] / 100) * float(product['price'])
+        subtotal += float(product['price']) * int(product['quantity'])
         subtotal -= discount
         tax = ("%.2f" %(.06 * float(subtotal)))
         total = float("%.2f" %(1.06 * subtotal))
     return render_template('products/carts.html', tax=tax, total=total)
+
+
+@app.route('/updateCart/<int:code>', methods=['POST'])
+def updateCart(code):
+    if 'StoreinCart' not in session and len(session['StoreinCart']) <= 0:
+        return redirect(url_for('home'))
+    if request.method == 'POST':
+        quantity = request.form.get('quantity')
+        color = request.form.get('colors')
+
+        try:
+            session.modified = True
+            for key, item in session['StoreinCart'].items():
+                if int(key) == code:
+                    item['quantity'] = quantity
+                    item['color'] = color
+                    flash('O item foi atualizado com sucesso!', 'success')
+                    return redirect(url_for('getCart'))
+        except Exception as e:
+            print(e)
+            return redirect(url_for('getCart'))
+
+
+
+@app.route('/empty')
+def emptyCart():
+    try:
+        session.clear()
+        return redirect(url_for('home'))
+    except Exception as e:
+        print(e)
