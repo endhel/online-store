@@ -93,7 +93,13 @@ def deleteItem(id):
         return redirect(url_for('getCart'))
 
 
-
+@app.route('/cleanCart')
+def cleanCart():
+    try:
+        session.pop('StoreinCart', None)
+        return redirect(url_for('home'))
+    except Exception as e:
+        print(e)
 
 @app.route('/empty')
 def emptyCart():
