@@ -18,6 +18,7 @@ photos = UploadSet('photos', IMAGES)
 configure_uploads(app, photos)
 patch_request_class(app)
 
-from store.admin import routes
-from store.products import routes
 from store.shopping_cart import carts
+from store.products import routes
+from store.admin import routes
+from store.clients import routes
