@@ -23,9 +23,12 @@ def addCart():
             DictItems = {product_id:{'name':product.name, 'price':float(product.price), 'discount':product.discount, 
             'color':colors, 'quantity':quantity, 'image':product.image_1, 'colors': product.colors}}
             if 'StoreinCart' in session:
-                print(session['StoreinCart'])
                 if product_id in session['StoreinCart']:
-                    print('Este produto já existe no carrinho!')
+                    if product_id in session['StoreinCart']:
+                        for key, item in session['StoreinCart'].items():
+                            if int(key) == int(product_id):
+                                session.modified = True
+                                item['quantity'] = int(item['quantity']) + 1
                 else:
                     session['StoreinCart'] = M_Dictionaries(session['StoreinCart'], DictItems)
                     return redirect(request.referrer)
@@ -100,6 +103,8 @@ def cleanCart():
         return redirect(url_for('home'))
     except Exception as e:
         print(e)
+
+
 
 @app.route('/empty')
 def emptyCart():

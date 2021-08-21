@@ -250,7 +250,8 @@
                         <input type="hidden" name="product_id" value="{{product.id}}">
                         <button type="submit" class="btn btn-sm btn-warning float-right">Adicionar Carrinho</button>
 
-                        <input type="hidden" name="quantity" id="" value="1" min="1" max="{{product.stock}}">
+                        <input type="number" style="visibility: hidden;" name="quantity" id="" value="1" min="1"
+                            max="{{product.stock}}">
                         {% set colors = product.colors.split(',') %}
 
                         <select name="colors" id="colors" style="visibility: hidden;">
