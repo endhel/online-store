@@ -62,3 +62,22 @@ def orderClient():
             print(e)
             flash('Não foi possível processar o seu pedido!', 'danger')
             return redirect(url_for('getCart'))
+
+@app.route('/clients/order/<invoice>')
+@login_required
+def ordersClient(invoice):
+    if current_user.is_authenticated:
+        gTotal = subtotal = 0
+        client_id = current_user.id
+        client = Client.query.filter_by(id=client_id).first()
+        orders = ClientRequest.query.filter_by(client_id=client_id, invoice=invoice).order_by(ClientRequest.id.desc()).first()
+        for _key, product in orders.request.items():
+            discount = (product['discount']/100) * float(product['price'])
+            subtotal += float(product['price']) * int(product['quantity'])
+            subtotal -= discount
+            tax = ("%.2f" % (.06 * float(subtotal)))
+            gTotal = float("%.2f" % (1.06 * subtotal))
+    else:
+        return redirect(url_for('loginClient'))
+    return render_template('clients/order.html', invoice=invoice, tax=tax, subtotal=subtotal, gTotal=gTotal, 
+                                                 client=client, orders=orders)

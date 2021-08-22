@@ -1,0 +1,164 @@
+{% extends 'layouts.html' %}
+{% block content %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+    <a class="navbar-brand text-danger font-weight-bold" href="/">InfoStore</a>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            {% if brand %}
+            <li class="nav-item">
+                <a class="nav-link text-white" href="/">Produtos</a>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-danger" href="#" id="navbarDropdown" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Marcas
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    {% for brand in brands %}
+                    <a class="dropdown-item" href="{{url_for('get_brand', id=brand.id)}}">{{brand.name}}</a>
+                    {% endfor %}
+                </div>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Categorias
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    {% for category in categories %}
+                    <a class="dropdown-item" href="{{url_for('get_category', id=category.id)}}">{{category.name}}</a>
+                    {% endfor %}
+                </div>
+            </li>
+            {% elif category %}
+            <li class="nav-item">
+                <a class="nav-link text-white" href="/">Produtos</a>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Marcas
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    {% for brand in brands %}
+                    <a class="dropdown-item" href="{{url_for('get_brand', id=brand.id)}}">{{brand.name}}</a>
+                    {% endfor %}
+                </div>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-danger" href="#" id="navbarDropdown" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Categorias
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    {% for category in categories %}
+                    <a class="dropdown-item" href="{{url_for('get_category', id=category.id)}}">{{category.name}}</a>
+                    {% endfor %}
+                </div>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link text-white" href="/">Produtos</a>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Marcas
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    {% for brand in brands %}
+                    <a class="dropdown-item" href="{{url_for('get_brand', id=brand.id)}}">{{brand.name}}</a>
+                    {% endfor %}
+                </div>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Categorias
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    {% for category in categories %}
+                    <a class="dropdown-item" href="{{url_for('get_category', id=category.id)}}">{{category.name}}</a>
+                    {% endfor %}
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{url_for('getCart')}}" class="nav-link text-white"
+                    tabindex="-1">Carrinho({{session['StoreinCart']|length}})</a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{url_for('getCart')}}" class="nav-link text-danger" tabindex="-1">Pedidos</a>
+            </li>
+            {% endif %}
+        </ul>
+        <form class="form-inline my-2 my-lg-0" method="POST">
+            <input class="form-control mr-sm-2" type="text" placeholder="Pesquisar Produtos" autofocus="autofocus"
+                name="search_string">
+            <input class="btn btn-outline-success my-2 my-sm-0" type="submit" formaction="/search" value="Pesquisar">
+        </form>
+    </div>
+</nav>
+
+<div class="container mt-3">
+    {% include '_messages.html' %}
+    <div class="row">
+        <table class="table table-sm">
+            <thead>
+                <th>Código</th>
+                <th>Nome</th>
+                <th>Cor</th>
+                <th>Preço</th>
+                <th>Quantidade</th>
+                <th>Desconto</th>
+                <th>Subtotal</th>
+            </thead>
+
+            <tbody>
+                {% for key, product in orders.request.items() %}
+                {% set discount = "%.2f" | format((product.discount/100) * product.price|float) %}
+                <tr>
+                    <td>{{loop.index}}</td>
+                    <td>{{product.name}}</td>
+                    <form action="{{url_for('updateCart', code=key)}}" method="POST">
+                        <td>
+                            {{product.color|capitalize}}
+                        </td>
+                        <td>R${{product.price}}</td>
+                        <td>{{product.quantity}}</td>
+                        {% if product.discount > 0 %}
+                        <td>{{product.discount}}% &nbsp; = {{discount}}</td>
+                        {% else %}
+                        <td></td>
+                        {% endif %}
+                        {% set subtotal = product.quantity|int * product.price|float %}
+                        <td>{{"%0.2f"|format((subtotal|float) - discount|float )}}</td>
+                    </form>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+        <table class="table table-sm">
+            <tr>
+                <td></td>
+                <td colspan="3">Imposto:&nbsp; R${{tax}}</td>
+                <td colspan="5">Valor a Pagar:&nbsp; R${{gTotal}}</td>
+                <td><a href="{{url_for('cleanCart')}}" class="btn btn-sm btn-warning float-right">Baixar PDF</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+{% endblock content %}
