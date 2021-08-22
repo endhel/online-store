@@ -4,25 +4,9 @@
 
 {% include "_messages.html" %}
 
-<nav class="navbar navbar-expand-lg navbar-light bg-dark">
-    <a class="navbar-brand text-danger font-weight-bold" href="/">InfoStore</a>
+{% include 'navbar_admin.html' %}
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link text-danger" href="/admin">Produtos</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white" href="/categories">Categorias</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white" href="/brands">Marcas</a>
-            </li>
-        </ul>
-    </div>
-</nav>
-
-<div class="container mt-5">
+<div class="container my-3">
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-8">
@@ -34,7 +18,7 @@
                 {{ render_field(form.price, class="form-control", placeholder="Digite o preço do produto") }}
                 {{ render_field(form.discount, class="form-control", placeholder="Digite o desconto do produto") }}
                 {{ render_field(form.stock, class="form-control", placeholder="Digite o estoque do produto") }}
-                
+
                 <label for="brand">Marca:</label>
                 <select name="brand" id="brand" class="form-control" required>
                     <option value="">Selecione uma marca</option>
@@ -50,10 +34,11 @@
                     <option value="{{category.id}}">{{category.name}}</option>
                     {% endfor %}
                 </select>
-                
+
                 {{ render_field(form.colors, class="form-control", placeholder="Digite a cor do produto") }}
-                {{ render_field(form.description, class="form-control", placeholder="Digite a descrição do produto", rows="10") }}
-                
+                {{ render_field(form.description, class="form-control", placeholder="Digite a descrição do produto",
+                rows="10") }}
+
                 <div class="container">
                     <div class="row">
                         <div class="col-md-4">{{ render_field(form.image_1, class="form-control") }}</div>
@@ -61,12 +46,14 @@
                         <div class="col-md-4">{{ render_field(form.image_3, class="form-control") }}</div>
                     </div>
                 </div>
-
-                <button type="submit" class="btn btn-dark mt-4">Cadastrar</button>
+                <div class="row w-100 d-flex justify-content-center">
+                    <button type="submit" class="btn btn-success mt-4">Cadastrar</button>
+                </div>
             </form>
         </div>
         <div class="col-md-2"></div>
     </div>
+
 </div>
 
 {% endblock content %}

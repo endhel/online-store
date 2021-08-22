@@ -2,10 +2,9 @@
 
 {% block content %}
 
-<nav class="navbar navbar-expand-lg navbar-light bg-dark">
-    <a class="navbar-brand text-danger font-weight-bold" href="#">InfoStore</a>
-</nav>
-<div class="container d-flex justify-content-center mt-5">
+{% include 'navbar_admin.html' %}
+
+<div class="container w-50 mt-5">
     {% include '_messages.html' %}
     {% from "_formhelpers.html" import render_field %}
     <form method="post">
@@ -17,7 +16,11 @@
             {{ render_field(form.password, class="form-control") }}
             {{ render_field(form.confirm, class="form-control") }}
         </div>
-        <p><input type="submit" value="Registrar" class="btn btn-dark mt-4"></p>
+        <div class="row w-100 d-flex justify-content-center">
+            <p><input type="submit" value="Registrar" class="btn btn-success mt-4 px-5"></p>
+        </div>
+        <p class="d-flex justify-content-center"><a href="{{url_for('login')}}">Já possui uma conta?
+                Faça seu Login!</a></p>
     </form>
 </div>
 

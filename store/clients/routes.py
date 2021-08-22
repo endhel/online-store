@@ -6,6 +6,7 @@ import secrets
 import os
 from .models import Client, ClientRequest
 from flask_login import login_required, current_user, login_user, logout_user
+from store.products.routes import brands, categories
 
 
 @app.route('/clients/register', methods=['GET', 'POST'])
@@ -20,7 +21,7 @@ def registerClient():
         flash(f'Usuário {form.name.data} registrado com sucesso!', 'success')
         db.session.commit()
         return redirect(url_for('loginClient'))
-    return render_template('/clients/register.html', form=form)
+    return render_template('/clients/register.html', form=form, brands=brands(), categories=categories())
 
 
 @app.route('/clients/login', methods=['GET', 'POST'])
@@ -36,7 +37,7 @@ def loginClient():
             return redirect(next or url_for('home'))
         flash('Não foi possível logar no sistema!', 'danger')
         return redirect(url_for('loginClient'))
-    return render_template('/clients/login.html', form=form)
+    return render_template('/clients/login.html', form=form, brands=brands(), categories=categories())
 
 
 @app.route('/clients/logout')
@@ -80,4 +81,4 @@ def ordersClient(invoice):
     else:
         return redirect(url_for('loginClient'))
     return render_template('clients/order.html', invoice=invoice, tax=tax, subtotal=subtotal, gTotal=gTotal, 
-                                                 client=client, orders=orders)
+                                                 client=client, orders=orders, brands=brands(), categories=categories())

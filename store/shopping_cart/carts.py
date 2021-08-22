@@ -104,8 +104,6 @@ def cleanCart():
     except Exception as e:
         print(e)
 
-
-
 @app.route('/empty')
 def emptyCart():
     try:

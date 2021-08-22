@@ -2,133 +2,7 @@
 
 {% block content %}
 
-<nav class="navbar navbar-expand-lg navbar-light bg-dark">
-    <a class="navbar-brand text-danger font-weight-bold" href="/">InfoStore</a>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            {% if brand %}
-            <li class="nav-item">
-                <a class="nav-link text-white" href="/">Produtos</a>
-            </li>
-
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-danger" href="#" id="navbarDropdown" role="button"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Marcas
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    {% for brand in brands %}
-                    <a class="dropdown-item" href="{{url_for('get_brand', id=brand.id)}}">{{brand.name}}</a>
-                    {% endfor %}
-                </div>
-            </li>
-
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Categorias
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    {% for category in categories %}
-                    <a class="dropdown-item" href="{{url_for('get_category', id=category.id)}}">{{category.name}}</a>
-                    {% endfor %}
-                </div>
-            </li>
-            {% elif category %}
-            <li class="nav-item">
-                <a class="nav-link text-white" href="/">Produtos</a>
-            </li>
-
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Marcas
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    {% for brand in brands %}
-                    <a class="dropdown-item" href="{{url_for('get_brand', id=brand.id)}}">{{brand.name}}</a>
-                    {% endfor %}
-                </div>
-            </li>
-
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-danger" href="#" id="navbarDropdown" role="button"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Categorias
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    {% for category in categories %}
-                    <a class="dropdown-item" href="{{url_for('get_category', id=category.id)}}">{{category.name}}</a>
-                    {% endfor %}
-                </div>
-            </li>
-            {% else %}
-            <li class="nav-item">
-                <a class="nav-link text-danger" href="/">Produtos</a>
-            </li>
-
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Marcas
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    {% for brand in brands %}
-                    <a class="dropdown-item" href="{{url_for('get_brand', id=brand.id)}}">{{brand.name}}</a>
-                    {% endfor %}
-                </div>
-            </li>
-
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Categorias
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    {% for category in categories %}
-                    <a class="dropdown-item" href="{{url_for('get_category', id=category.id)}}">{{category.name}}</a>
-                    {% endfor %}
-                </div>
-            </li>
-
-            {% if current_user.is_authenticated %}
-
-            <li class="nav-item">
-                <a class="nav-link" href="{{url_for('logoutClient')}}">{{current_user.name}}</a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="{{url_for('logoutClient')}}">Sair</a>
-            </li>
-
-            {% else %}
-
-            <li class="nav-item">
-                <a class="nav-link" href="{{url_for('registerClient')}}">Cadastrar</a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="{{url_for('loginClient')}}">Entrar</a>
-            </li>
-
-            {% endif %}
-
-
-
-            <li class="nav-item">
-                <a href="{{url_for('getCart')}}" class="nav-link text-white"
-                    tabindex="-1">Carrinho({{session['StoreinCart']|length}})</a>
-            </li>
-            {% endif%}
-        </ul>
-        <form class="form-inline my-2 my-lg-0" method="POST">
-            <input class="form-control mr-sm-2" type="text" placeholder="Pesquisar Produtos" autofocus="autofocus"
-                name="search_string">
-            <input class="btn btn-outline-success my-2 my-sm-0" type="submit" formaction="/search" value="Pesquisar">
-        </form>
-    </div>
-</nav>
+{% include 'navbar.html' %}
 
 <div class="container mt-3">
     <div class="row">
@@ -216,14 +90,14 @@
                         <input type="hidden" name="product_id" value="{{c.id}}">
                         <button type="submit" class="btn btn-sm btn-warning float-right">Adicionar Carrinho</button>
 
-                        <input type="hidden" name="quantity" id="" value="1"">
+                        <input type="hidden" name="quantity" id="" value="1">
                         {% set colors = c.colors.split(',') %}
-                        
-                        <select name=" colors" id="colors" style="visibility: hidden;">
-                        {% for color in colors %}
-                        {% set col = color.split(':') %}
-                        <option value="{{col[0]}}">{{col[0]|capitalize}}</option>
-                        {% endfor %}
+
+                        <select name="colors" id="colors" style="visibility: hidden;">
+                            {% for color in colors %}
+                            {% set col = color.split(':') %}
+                            <option value="{{col[0]}}">{{col[0]|capitalize}}</option>
+                            {% endfor %}
                         </select>
                     </form>
                 </div>

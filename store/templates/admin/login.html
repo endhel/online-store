@@ -2,19 +2,21 @@
 
 {% block content %}
 
-<nav class="navbar navbar-expand-lg navbar-light bg-dark">
-    <a class="navbar-brand text-danger font-weight-bold" href="#">InfoStore</a>
-</nav>
+{% include 'navbar_admin.html' %}
 
-<div class="bg-danger">{% include '_messages.html' %}</div>
+{% include '_messages.html' %}
 
-<div class="container w-25 d-flex justify-content-center mt-5">
+<div class="container w-50 mt-5">
     {% from "_formhelpers.html" import render_field %}
     <form method="post" enctype="multipart/form-data" class="w-100">
         <div>
             {{ render_field(form.email, class="form-control") }}
             {{ render_field(form.password, class="form-control") }}
-            <p><input type="submit" value="Entrar" class="btn btn-dark mt-4 p-"></p>
+            <div class="row w-100 d-flex justify-content-center">
+                <p><input type="submit" value="Entrar" class="btn btn-success mt-4 px-5"></p>
+            </div>
+            <p class="d-flex justify-content-center"><a href="{{url_for('register')}}">Não possui uma conta?
+                    Cadastre-se!</a></p>
         </div>
     </form>
 </div>

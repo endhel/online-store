@@ -4,23 +4,7 @@
 
 {% include "_messages.html" %}
 
-<nav class="navbar navbar-expand-lg navbar-light bg-dark">
-    <a class="navbar-brand text-danger font-weight-bold" href="/">InfoStore</a>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link text-danger" href="/admin">Produtos</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white" href="/categories">Categorias</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white" href="/brands">Marcas</a>
-            </li>
-        </ul>
-    </div>
-</nav>
+{% include 'navbar_admin.html' %}
 
 <div class="container mt-5">
     <div class="row">
@@ -34,26 +18,27 @@
                 {{ render_field(form.price, class="form-control", placeholder="Digite o preço do produto") }}
                 {{ render_field(form.discount, class="form-control", placeholder="Digite o desconto do produto") }}
                 {{ render_field(form.stock, class="form-control", placeholder="Digite o estoque do produto") }}
-                
-                <label for="brand">Marca:</label>
-                <select name="brand" id="brand" class="form-control" required>
+
+                <label class="font-weight-bold" for="brand">Marca:</label>
+                <select name="brand" id="brand" class="form-control mb-2" required>
                     <option value="{{product.brand.id}}">{{product.brand.name}}</option>
                     {% for brand in brands %}
                     <option value="{{brand.id}}">{{brand.name}}</option>
                     {% endfor %}
                 </select>
 
-                <label for="category">Categoria:</label>
-                <select name="category" id="category" class="form-control" required>
+                <label class="font-weight-bold" for="category">Categoria:</label>
+                <select name="category" id="category" class="form-control my-2" required>
                     <option value="{{product.category.id}}">{{product.category.name}}</option>
                     {% for category in categories %}
                     <option value="{{category.id}}">{{category.name}}</option>
                     {% endfor %}
                 </select>
-                
+
                 {{ render_field(form.colors, class="form-control", placeholder="Digite a cor do produto") }}
-                {{ render_field(form.description, class="form-control", placeholder="Digite a descrição do produto", rows="10") }}
-                
+                {{ render_field(form.description, class="form-control", placeholder="Digite a descrição do produto",
+                rows="10") }}
+
                 <div class="container">
                     <div class="row">
                         <div class="col-md-4">{{ render_field(form.image_1, class="form-control") }}</div>
@@ -62,7 +47,9 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-success mt-4 mb-5">Atualizar</button>
+                <div class="row w-100 d-flex justify-content-center">
+                    <button type="submit" class="btn btn-success mt-4 mb-5 px-5">Atualizar</button>
+                </div>
             </form>
         </div>
         <div class="col-md-2"></div>

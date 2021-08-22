@@ -53,7 +53,7 @@ def get_category(id):
     category_id = Category.query.filter_by(id=id).first_or_404()
     category = Product.query.filter_by(
         category=category_id).paginate(page=page, per_page=4)
-    return render_template('products/index.html', category=category, categories=categories(), brands=brands(), category_id=category_id)
+    return render_template('products/index.html', category=category, brands=brands(), categories=categories(), category_id=category_id)
 
 
 @app.route('/addbrand', methods=['GET', 'POST'])
@@ -145,7 +145,7 @@ def updatebrand(id):
     if request.method == "POST":
         updatebrand.name = brand
         db.session.commit()
-        flash(f'A marca foi atualizada com sucesso!', 'success')
+        flash(f'A marca {updatebrand.name} foi atualizada com sucesso!', 'success')
         return redirect(url_for('brands'))
 
     return render_template('products/updatebrand.html', title='Atualizar Marca', updatebrand=updatebrand)
@@ -164,7 +164,7 @@ def updatecategory(id):
     if request.method == "POST":
         updatecategory.name = category
         db.session.commit()
-        flash(f'A categoria foi atualizada com sucesso!', 'success')
+        flash(f'A categoria {updatecategory.name} foi atualizada com sucesso!', 'success')
         return redirect(url_for('categories'))
 
     return render_template('products/updatebrand.html', title='Atualizar Categoria', updatecategory=updatecategory)
@@ -172,8 +172,6 @@ def updatecategory(id):
 
 @app.route('/updateproduct/<int:id>', methods=['GET', 'POST'])
 def updateproduct(id):
-
-    print('teste')
 
     if 'email' not in session:
         flash('Favor, fazer o seu login!', 'danger')
@@ -227,7 +225,7 @@ def updateproduct(id):
                     'image_3'), name=secrets.token_hex(10)+".")
 
         db.session.commit()
-        flash(f'O produto foi atualizado com sucesso!', 'success')
+        flash(f'O produto {product.name} foi atualizado com sucesso!', 'success')
         return redirect(url_for('admin'))
 
     form.name.data = product.name
@@ -289,8 +287,8 @@ def deleteproduct(id):
 
         db.session.delete(product)
         db.session.commit()
+        flash(f'A categoria {product.name} foi deletada com sucesso!', 'success')
         return redirect(url_for('admin'))
-    flash(f'A categoria {product.name} foi deletada com sucesso!', 'success')
     return redirect(url_for('admin'))
 
 

@@ -2,23 +2,7 @@
 
 {% block content %}
 
-<nav class="navbar navbar-expand-lg navbar-light bg-dark">
-    <a class="navbar-brand text-danger font-weight-bold" href="/admin">InfoStore</a>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link text-white" href="/admin">Home</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link text-white" href="/categories">Categorias</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-danger" href="/brands">Marcas</a>
-            </li>
-        </ul>
-    </div>
-</nav>
+{% include 'navbar_admin.html' %}
 
 <div class="container mt-5">
     <div class="row">
@@ -28,14 +12,18 @@
             {% if updatebrand %}
             <form action="" method="POST">
                 <input type="text" name="brand" class="form-control" value="{{updatebrand.name}}">
-                <input type="submit" value="Atualizar" class="btn btn-success mt-2">
-                <a href="/brands" class="btn btn-danger mt-2">Cancelar</a>
+                <div class="row w-100 d-flex justify-content-center">
+                    <input type="submit" value="Atualizar" class="btn btn-success mt-2 mr-2">
+                    <a href="{{url_for('brands')}}" class="btn btn-danger mt-2 ml-2">Cancelar</a>
+                </div>
             </form>
             {% else %}
             <form action="" method="POST">
                 <input type="text" name="category" class="form-control" value="{{updatecategory.name}}">
-                <input type="submit" value="Atualizar" class="btn btn-success mt-2">
-                <a href="/categories" class="btn btn-danger mt-2">Cancelar</a>
+                <div class="row w-100 d-flex justify-content-center">
+                    <input type="submit" value="Atualizar" class="btn btn-success mt-2 mr-2">
+                    <a href="{{url_for('categories')}}" class="btn btn-danger mt-2 ml-2">Cancelar</a>
+                </div>
             </form>
             {% endif %}
         </div>

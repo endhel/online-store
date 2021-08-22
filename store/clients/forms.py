@@ -22,7 +22,7 @@ class RegistrationForm(FlaskForm):
     profile = FileField('Foto de Perfil: ', validators=[
                         FileAllowed(['jpg', 'png', 'gif', 'jpeg'])])
 
-    submit = SubmitField('Cadastrar')
+    submit = SubmitField('Cadastrar-se')
 
     def validate_username(self, username):
         if Client.query.filter_by(username=username.data).first():
