@@ -92,6 +92,30 @@
                 </div>
             </li>
 
+            {% if current_user.is_authenticated %}
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{url_for('logoutClient')}}">{{current_user.name}}</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{url_for('logoutClient')}}">Sair</a>
+            </li>
+
+            {% else %}
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{url_for('registerClient')}}">Cadastrar</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{url_for('loginClient')}}">Entrar</a>
+            </li>
+
+            {% endif %}
+
+
+
             <li class="nav-item">
                 <a href="{{url_for('getCart')}}" class="nav-link text-white"
                     tabindex="-1">Carrinho({{session['StoreinCart']|length}})</a>
@@ -99,7 +123,8 @@
             {% endif%}
         </ul>
         <form class="form-inline my-2 my-lg-0" method="POST">
-            <input class="form-control mr-sm-2" type="text" placeholder="Pesquisar Produtos" autofocus="autofocus" name="search_string">
+            <input class="form-control mr-sm-2" type="text" placeholder="Pesquisar Produtos" autofocus="autofocus"
+                name="search_string">
             <input class="btn btn-outline-success my-2 my-sm-0" type="submit" formaction="/search" value="Pesquisar">
         </form>
     </div>

@@ -98,7 +98,8 @@
             {% endif %}
         </ul>
         <form class="form-inline my-2 my-lg-0" method="POST">
-            <input class="form-control mr-sm-2" type="text" placeholder="Pesquisar Produtos" autofocus="autofocus" name="search_string">
+            <input class="form-control mr-sm-2" type="text" placeholder="Pesquisar Produtos" autofocus="autofocus"
+                name="search_string">
             <input class="btn btn-outline-success my-2 my-sm-0" type="submit" formaction="/search" value="Pesquisar">
         </form>
     </div>
@@ -160,7 +161,8 @@
 
                 <tr>
                     <td></td>
-                    <td><a href="/" class="btn btn-sm btn-success float-left">Processar Compra</a></td>
+                    <td><a href="{{url_for('orderClient')}}" class="btn btn-sm btn-success float-left">Processar
+                            Compra</a></td>
                     <td colspan="3">Imposto:&nbsp; R${{tax}}</td>
                     <td colspan="3">Valor a Pagar:&nbsp; R${{total}}</td>
                     <td colspan="2"><a href="{{url_for('cleanCart')}}" class="btn btn-sm btn-danger float-right">Limpar

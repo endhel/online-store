@@ -1,8 +1,10 @@
-from wtforms import Form, SubmitField, IntegerField, FloatField, StringField, TextAreaField, validators, PasswordField
+from wtforms import Form, SubmitField, IntegerField, FloatField, StringField, TextAreaField, validators, PasswordField, ValidationError
 from flask_wtf.file import FileField, FileRequired, FileAllowed
+from flask_wtf import FlaskForm
+from .models import Client
 
 
-class AddClients(Form):
+class RegistrationForm(FlaskForm):
     name = StringField('Nome: ')
     username = StringField('Nome de usuário: ', [validators.DataRequired()])
     email = StringField('Email: ', [validators.DataRequired()])
@@ -21,3 +23,15 @@ class AddClients(Form):
                         FileAllowed(['jpg', 'png', 'gif', 'jpeg'])])
 
     submit = SubmitField('Cadastrar')
+
+    def validate_username(self, username):
+        if Client.query.filter_by(username=username.data).first():
+            raise ValidationError("Este usuário já existe!")
+
+    def validate_email(self, email):
+        if Client.query.filter_by(email=email.data).first():
+            raise ValidationError("Este email já foi cadastrado por outro usuário!")
+
+class LoginForm(FlaskForm):
+    email = StringField('Email: ', [validators.DataRequired()])
+    password = PasswordField('Senha: ', [validators.DataRequired()])
