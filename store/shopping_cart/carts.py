@@ -103,11 +103,3 @@ def cleanCart():
         return redirect(url_for('home'))
     except Exception as e:
         print(e)
-
-@app.route('/empty')
-def emptyCart():
-    try:
-        session.clear()
-        return redirect(url_for('home'))
-    except Exception as e:
-        print(e)
